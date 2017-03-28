@@ -13,7 +13,7 @@ Template.home.onCreated(function(){
 Template.home.helpers({
   openProject: ()=>{
     return (id)=>{
-      openModal({title: `管家${id}`});
+      openModal({title: `管家${id}`,contentTPL:'addProject'});
     }
   },
   projects: [{
