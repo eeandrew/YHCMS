@@ -3,5 +3,6 @@
     {{#each project in projects}}
       {{> ProjectBtn project=project callback=openProject}}
     {{/each}}
+    {{> ProjectBtn addNew=1 callback=addProject}}
   </div>
 </template>

@@ -4,14 +4,12 @@ import {
 
 Template.ProjectBtn.events({
   'click .project-btn'(event,instance) {
-    console.log(instance.data);
     const {
-      project,
+      addNew,
       callback
     } = instance.data;
-    const {
-      id
-    } = project;
-    callback && callback(id);
+    if(addNew) {
+     callback && callback();
+    }
   }
 });
