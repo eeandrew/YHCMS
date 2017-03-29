@@ -7,8 +7,10 @@
       {{> Template.dynamic template=header}}
     </header>
     {{> Template.dynamic template=content}}
+    {{#if modalOpen}}
+      {{> Modal}}
+    {{/if}}
     <footer>
-      {{> Template.dynamic template=footer}}
     </footer>
   </div>
 </template>

@@ -1,6 +1,13 @@
 import {
   Template
 } from 'meteor/templating';
+import {
+  openModal,
+  closeModal
+} from '../../stores/uiactions/modal.action';
+import {
+  Projects
+} from '../../../universal/collections';
 
 Template.home.onCreated(function(){
  
@@ -9,18 +16,15 @@ Template.home.onCreated(function(){
 Template.home.helpers({
   openProject: ()=>{
     return (id)=>{
-      alert(id);
+      openModal({title: `管家${id}`,contentTPL:'addProject'});
     }
   },
-  projects: [{
-    name: '管家资源1',
-    type: 'img',
-    id: '1',
-    callback: Template.instance
-  },{
-    name: '管家资源2',
-    type: 'svg',
-    id: '2',
-    callback: Template.instance
-  }]
+  addProject: ()=>{
+    return ()=>{
+      openModal({title: '新建项目', contentTPL: 'addProject'});
+    }
+  },
+  projects: ()=>{
+    return Projects.find({})
+  }
 })

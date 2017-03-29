@@ -1,5 +1,11 @@
 <template name="ProjectBtn">
+  {{#unless addNew}}
   <div class="project-btn">
     {{project.name}}
   </div>
+  {{else}}
+  <div class="project-btn">
+    <i class="yhicon-plus"></i>
+  </div>
+  {{/unless}}
 </template>
