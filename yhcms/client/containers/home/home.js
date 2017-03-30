@@ -15,8 +15,11 @@ Template.home.onCreated(function(){
 
 Template.home.helpers({
   openProject: ()=>{
-    return (id)=>{
-      openModal({title: `管家${id}`,contentTPL:'addProject'});
+    return (project)=>{
+      const {
+        _id
+      } = project;
+      FlowRouter.go('svgeditor',{projectid:_id});
     }
   },
   addProject: ()=>{

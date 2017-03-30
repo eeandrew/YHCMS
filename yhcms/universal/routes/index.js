@@ -8,6 +8,10 @@ function route(FlowRouter) {
     name:'home',
     action: renderBasic.bind(this,'home')
   })
+  FlowRouter.route('/svg/:projectid',{
+    name:'svgeditor',
+    action: renderBasic.bind(this,'svgEditor')
+  })
   FlowRouter.notFound = {
     action: renderSlim.bind(this,'notFound')
   }
