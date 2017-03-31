@@ -14,25 +14,30 @@ Template.addFile.onCreated(function(){
 
 Template.addFile.events({
   'change #filer'(event, instance) {
-    console.log(event.target.files);
-    if(event.target.files && event.target.files[0]) {
-      const upload = Images.insert({
-        file: event.target.files[0],
-        streams: 'dynamic',
-        chunkSize: 'dynamic'
-      }, false);
-      upload.on('start',()=>{
-        instance.currentUpload.set(this);
-      })
-      upload.on('end',(error, fileObj)=>{
-        if (error) {
-          alert('Error during upload: ' + error);
-        } else {
-          alert('File "' + fileObj.name + '" successfully uploaded');
-        }
-        instance.currentUpload.set(false);
-      })
-      upload.start();
+    if(event.target.files && event.target.files.length > 0) {
+      if (event.target.files.length > 10) {
+        alert('too much files you upload, max is 10!');
+        return;
+      }
+      for (let i = 0; i < event.target.files.length; i++) {
+        const upload = Images.insert({
+          file: event.target.files[i],
+          streams: 'dynamic',
+          chunkSize: 'dynamic'
+        }, false);
+        upload.on('start', () => {
+          instance.currentUpload.set(this);
+        })
+        upload.on('end', (error, fileObj) => {
+          if (error) {
+            alert('Error during upload: ' + error);
+          } else {
+            alert('File "' + fileObj.name + '" successfully uploaded');
+          }
+          instance.currentUpload.set(false);
+        })
+        upload.start();
+      }
     }
   }
 })
