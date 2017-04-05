@@ -1,15 +1,13 @@
 import { FilesCollection } from 'meteor/ostrio:files';
-import fs from 'fs';
 import path from 'path';
 // import svg2css from '../../../../svg2css';
 
-const projPath = path.resolve('../../../../../');
+const projPath = path.resolve('../../../../../../');
 
 const Images = new FilesCollection({
   collectionName: 'Images',
   allowClientCode: true,
-  storagePath: path.join(projPath, 'uploads'),
-  fileBase64: '',
+  storagePath: path.join(projPath, 'uploads/pngs'),
   onBeforeUpload: (file) => {
     if(file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
       return true;
@@ -19,9 +17,12 @@ const Images = new FilesCollection({
   },
   onAfterUpload(file) {
     if (Meteor.isServer) {
-      const fileString = fs.readFileSync(file.path);
-      const base64 = new Buffer(fileString, 'binary').toString('base64');
-      Images.update({'_id': file._id}, { downloadRoute: `data:image/png;base64, ${base64}` });
+      import { upload2qiniu } from '../../server/utils/upload2qiniu';
+      upload2qiniu(file, Meteor.bindEnvironment(
+        () => {
+          Images.update({'_id': file._id}, { downloadRoute: 'http://onmck4leq.bkt.clouddn.com/' + file.name });
+        }
+      ));
     }
   }
 });

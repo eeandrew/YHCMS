@@ -10,16 +10,22 @@ import {
 } from '../../../universal/collections';
 
 Template.home.onCreated(function(){
- 
+
 })
+
+const types = ['image', 'svg'];
 
 Template.home.helpers({
   openProject: ()=>{
     return (project)=>{
       const {
-        _id
+        _id, type
       } = project;
-      FlowRouter.go('svgeditor',{projectid:_id});
+      if (types.includes(type)) {
+        FlowRouter.go(`${type}editor`, {projectid:_id});
+      } else {
+        console.log('自定义页面');
+      }
     }
   },
   addProject: ()=>{

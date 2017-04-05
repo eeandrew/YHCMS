@@ -24,3 +24,7 @@ kadira:blaze-layout
 less
 aldeed:simple-schema
 ostrio:files
+cfs:ui
+session
+twbs:bootstrap
+aldeed:collection2
