@@ -1,10 +1,14 @@
 import { Template } from 'meteor/templating';
-import { Images } from '../../../universal/collections';
+import { DBimage, Projects } from '../../../universal/collections';
 
 Template.imageEditor.onCreated(function() {})
 
 Template.imageEditor.helpers({
     images: () => {
-      return Images.find({});
+      return DBimage.find({});
+    },
+    proj: () => {
+      const _id = FlowRouter.getParam('projectid');
+      return Projects.findOne({ _id: _id });
     }
 })

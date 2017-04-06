@@ -3,10 +3,10 @@ import { Images } from '../universal/collections';
 import svg2css from 'svg2css';
 import { upload2qiniu } from './utils/upload2qiniu';
 import path from 'path';
+import config from '../config.json';
 // import qiniu from 'qiniu';
 
-const projPath = path.resolve('../../../../../../uploads');
-const currentPath = path.resolve('../../../../../server');
+const projPath = path.join(config.uplaodPath, 'uploads');
 
 Meteor.startup(() => {
   // code to run on server at startup
@@ -18,12 +18,13 @@ if (Meteor.isServer) {
   });
 }
 
-function createCss() {
+function createCss(projName) {
   return new Promise(function(resolve, reject) {
     svg2css({
       baseDir: projPath,
-      svgDir: 'svgs',
-      iconName: 'icon'
+      cssFilePath: config.cssFilePath,
+      svgDir: `svgs/${projName}`,
+      iconName: 'yhicon'
     }, Meteor.bindEnvironment((res) => {
       if (res.result === true) {
         const uploadFile = {
@@ -51,8 +52,8 @@ function createCss() {
 }
 
 Meteor.methods({
-  createCss: function () {
-    return createCss().then((res) => {
+  createCss: function (projName) {
+    return createCss(projName).then((res) => {
       console.log(res);
       return res.url;
     });

@@ -1,7 +1,10 @@
 <template name="imageEditor">
+  <div class="title">
+    <span>{{proj.name}}</span>
+  </div>
   <div class="image-editor-page">
     {{#each image in images}}
-      {{> showfile url=image.downloadRoute }}
+      {{> showfile url=image.src image=image}}
     {{/each}}
     {{> addFile type=".png"}}
   </div>
