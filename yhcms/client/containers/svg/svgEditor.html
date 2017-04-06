@@ -1,8 +1,9 @@
 <template name="svgEditor">
   <div class="svg-editor-page">
-    {{#each image in images}}
-      {{> showfile url=image.downloadRoute }}
+    {{#each svg in Svgs}}
+      {{> svgfile src=svg.downloadRoute svg=svg}}
     {{/each}}
-    {{> addFile type=".png"}}
+    {{> addFile type=".svg"}}
   </div>
+  <button id="cssCreate">生成CSS</button>
 </template>
