@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Images } from '../universal/collections';
-import svg2css from './utils/svg2css';
+import svg2css from 'svg2css';
 import { upload2qiniu } from './utils/upload2qiniu';
 import path from 'path';
 // import qiniu from 'qiniu';
@@ -22,7 +22,6 @@ function createCss() {
   return new Promise(function(resolve, reject) {
     svg2css({
       baseDir: projPath,
-      modulePath: path.join(currentPath, 'utils', 'svg2css'),
       svgDir: 'svgs',
       iconName: 'icon'
     }, Meteor.bindEnvironment((res) => {
