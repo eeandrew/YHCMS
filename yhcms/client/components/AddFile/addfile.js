@@ -23,7 +23,8 @@ Template.addFile.events({
                         streams: 'dynamic',
                         chunkSize: 'dynamic',
                         meta: {
-                          proj: project.name
+                          proj: project.name,
+                          projId: project._id
                         }
                     }, false);
                 } else {
@@ -32,7 +33,8 @@ Template.addFile.events({
                         streams: 'dynamic',
                         chunkSize: 'dynamic',
                         meta: {
-                          proj: project.name
+                          proj: project.name,
+                          projId: project._id
                         }
                     }, false);
                 }

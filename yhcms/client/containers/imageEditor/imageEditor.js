@@ -5,7 +5,7 @@ Template.imageEditor.onCreated(function() {})
 
 Template.imageEditor.helpers({
     images: () => {
-      return DBimage.find({});
+      return DBimage.find({ projId: FlowRouter.getParam('projectid') });
     },
     proj: () => {
       const _id = FlowRouter.getParam('projectid');

@@ -21,12 +21,12 @@ Template.svgEditor.events({
             console.log(result);
             createStatus.percent = 100;
             instance.createStatus.set(createStatus);
-            alert('url is => ' + result);
             setTimeout(Meteor.bindEnvironment(
               () => {
                 createStatus.createing = false;
                 createStatus.url = result;
                 instance.createStatus.set(createStatus);
+                alert('url is => ' + result);
               }
             ), 1000);
           }
@@ -36,7 +36,7 @@ Template.svgEditor.events({
 
 Template.svgEditor.helpers({
     Svgs: () => {
-      return DBsvg.find({});
+      return DBsvg.find({ projId: FlowRouter.getParam('projectid') });
     },
     proj: () => {
       const _id = FlowRouter.getParam('projectid');
