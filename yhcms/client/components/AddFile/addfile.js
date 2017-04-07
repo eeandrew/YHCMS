@@ -1,5 +1,5 @@
 import {Template} from 'meteor/templating';
-import {Images, Svgs} from '../../../universal/collections'
+import {Images, Svgs, Projects} from '../../../universal/collections'
 import {ReactiveVar} from "meteor/reactive-var";
 
 Template.addFile.onCreated(function() {
@@ -14,33 +14,38 @@ Template.addFile.events({
                 alert('too much files you upload, max is 10!');
                 return;
             }
+            const project = Projects.findOne({ _id: FlowRouter.getParam('projectid') });
             for (let i = 0; i < filelen; i++) {
                 let upload = {};
                 if (event.target.files[i].type === 'image/svg+xml') {
                     upload = Svgs.insert({
                         file: event.target.files[i],
                         streams: 'dynamic',
-                        chunkSize: 'dynamic'
+                        chunkSize: 'dynamic',
+                        meta: {
+                          proj: project.name,
+                          projId: project._id
+                        }
                     }, false);
                 } else {
                     upload = Images.insert({
                         file: event.target.files[i],
                         streams: 'dynamic',
-                        chunkSize: 'dynamic'
+                        chunkSize: 'dynamic',
+                        meta: {
+                          proj: project.name,
+                          projId: project._id
+                        }
                     }, false);
                 }
                 upload.on('start', () => {
                     instance.currentUpload.set(this);
                 })
-                upload.on('progress', (a, b) => {
-                    console.log(a);
-                    console.log(b);
-                })
                 upload.on('end', (error, fileObj) => {
                     if (error) {
                         alert('Error during upload: ' + error);
                     } else {
-                        alert('File "' + fileObj.name + '" successfully uploaded');
+                        // alert('File "' + fileObj.name + '" successfully uploaded');
                     }
                     instance.currentUpload.set(false);
                 })

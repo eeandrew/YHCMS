@@ -17,6 +17,10 @@ Template.addProject.events({
     const projectname = instance.find('#projectname').value;
     const projecttype = instance.find('#projecttype').value;
     console.log(`${projectname} ${projecttype}`);
+    if (Projects.find({ name: projectname, type: projecttype }).count() !== 0) {
+      alert('项目名称和类型不能重复');
+      return;
+    }
     Projects.insert({
       name: projectname,
       type: projecttype,

@@ -1,5 +1,12 @@
 <template name="svgfile">
   <div class="svgfile">
     {{{src}}}
+    {{#if svg.uploading}}
+      <div class="svgfile_progress">
+        <div class="progress">
+          <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{svg.percent}}%"></div>
+        </div>
+      </div>
+    {{/if}}
   </div>
 </template>
