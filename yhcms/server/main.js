@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Images } from '../universal/collections';
-import svg2css from 'svg2css';
+import svg2css from './svg2css';
 import { upload2qiniu } from './utils/upload2qiniu';
 import path from 'path';
 import config from '../config.json';
