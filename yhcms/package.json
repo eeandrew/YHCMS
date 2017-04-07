@@ -8,6 +8,7 @@
   "dependencies": {
     "babel-runtime": "^6.20.0",
     "meteor-node-stubs": "~0.2.4",
-    "qiniu": "^6.1.13"
+    "qiniu": "^6.1.13",
+    "svg2css": "0.0.8"
   }
 }
