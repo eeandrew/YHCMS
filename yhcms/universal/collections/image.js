@@ -34,13 +34,13 @@ const Images = new FilesCollection({
           if (!fs.existsSync(projPngPath)) {
             fs.mkdirSync(projPngPath);
           }
-          exec(`mv ${file.path} ${projPngPath}/${file.name}`, function(err) {
+          exec(`mv ${file.path} ${projPngPath}/${file.name}`, Meteor.bindEnvironment(function(err) {
             if (err) {
               console.log(err);
               DBimage.remove({ fileId: file._id });
               Images.remove({});
             }
-          });
+          }));
           setTimeout(Meteor.bindEnvironment(
             () => {
               DBimage.update({ fileId: file._id }, { $set: { src: `${secret.BASE_URL}${res.key}`, uploading: false } });
