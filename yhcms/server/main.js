@@ -4,6 +4,7 @@ import svg2css from 'svg2css';
 import { upload2qiniu } from './utils/upload2qiniu';
 import path from 'path';
 import config from '../config.json';
+import secret from '../secret.json';
 // import qiniu from 'qiniu';
 
 const projPath = path.join(config.uplaodPath, 'uploads');
@@ -12,11 +13,11 @@ Meteor.startup(() => {
   // code to run on server at startup
 });
 
-if (Meteor.isServer) {
-  Meteor.publish('files.images.all', function () {
-    return Images.find().cursor;
-  });
-}
+// if (Meteor.isServer) {
+//   Meteor.publish('files.images.all', function () {
+//     return Images.find().cursor;
+//   });
+// }
 
 function createCss(projName) {
   return new Promise(function(resolve, reject) {
@@ -30,12 +31,14 @@ function createCss(projName) {
         const uploadFile = {
           path: res.path,
           name: res.name,
+          meta: {
+            proj: projName
+          }
         };
         upload2qiniu(uploadFile, Meteor.bindEnvironment(
-          () => {
-            console.log(`http://onmck4leq.bkt.clouddn.com/${res.name}`);
+          (res) => {
             resolve({
-              url: `http://onmck4leq.bkt.clouddn.com/${res.name}`,
+              url: `${secret.BASE_URL}${res.key}`,
               msg: 'svg to css 转换成功',
               res: true
             });

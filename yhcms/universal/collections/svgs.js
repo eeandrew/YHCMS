@@ -12,6 +12,7 @@ const projPath = config.uplaodPath;
 const Svgs = new FilesCollection({
   collectionName: 'Svgs',
   allowClientCode: true,
+  debug: true,
   storagePath: path.join(projPath, 'uploads/svgs'),
   onBeforeUpload: (file) => {
     if(file.size <= 10485760 && /svg/i.test(file.extension)) {
@@ -31,12 +32,18 @@ const Svgs = new FilesCollection({
       if (!fs.existsSync(projSvgPath)) {
         fs.mkdirSync(projSvgPath);
       }
-      exec(`mv ${file.path} ${projSvgPath}/${file.name}`);
+      exec(`mv ${file.path} ${projSvgPath}/${file.name}`, function(err) {
+        if (err) {
+          console.log(err);
+          DBsvg.remove({ fileId: file._id });
+        }
+      });
       setTimeout(Meteor.bindEnvironment(() => {
         DBsvg.update({ fileId: file._id }, { $set: { percent: 100 } });
       }), 1000);
       setTimeout(Meteor.bindEnvironment(() => {
         DBsvg.update({ fileId: file._id }, { $set: { uploading: false, src: src } });
+        Svgs.remove({});
       }), 1500);
     }
   }

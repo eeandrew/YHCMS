@@ -41,6 +41,9 @@ Template.addFile.events({
                 upload.on('start', () => {
                     instance.currentUpload.set(this);
                 })
+                upload.on('error', (err, fileObj) => {
+                  console.log(err);
+                })
                 upload.on('end', (error, fileObj) => {
                     if (error) {
                         alert('Error during upload: ' + error);

@@ -10,7 +10,6 @@ import {
 } from '../../../universal/collections';
 
 Template.home.onCreated(function(){
-
 })
 
 const types = ['image', 'svg'];
@@ -35,5 +34,8 @@ Template.home.helpers({
   },
   projects: ()=>{
     return Projects.find({})
+  },
+  user: () => {
+    return Meteor.userId();
   }
 })

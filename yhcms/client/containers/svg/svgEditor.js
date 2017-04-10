@@ -36,6 +36,9 @@ Template.svgEditor.events({
 
 Template.svgEditor.helpers({
     Svgs: () => {
+      if (!Meteor.userId()) {
+        return FlowRouter.go('/');
+      }
       return DBsvg.find({ projId: FlowRouter.getParam('projectid') });
     },
     proj: () => {
