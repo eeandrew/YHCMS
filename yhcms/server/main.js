@@ -3,6 +3,7 @@ import { Images } from '../universal/collections';
 import svg2css from 'svg2css';
 import { upload2qiniu } from './utils/upload2qiniu';
 import path from 'path';
+import fs from 'fs';
 import config from '../config.json';
 import secret from '../secret.json';
 // import qiniu from 'qiniu';
@@ -60,5 +61,11 @@ Meteor.methods({
       console.log(res);
       return res.url;
     });
+  },
+  createDir: function(projectname, projecttype) {
+    const projDirPath = path.join(projPath, `${projecttype}/${projectname}`);
+    if (!fs.existsSync(projDirPath)) {
+      fs.mkdirSync(projDirPath);
+    }
   }
 });
