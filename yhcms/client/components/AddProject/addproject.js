@@ -8,6 +8,10 @@ import {
 import {
   Projects
 } from '../../../universal/collections';
+import config from '../../../config.json';
+// import svg2css from '../../../../svg2css';
+
+const projPath = config.uplaodPath;
 
 Template.addProject.events({
   'click .yhcms-btn-warning'(event,instance){
@@ -26,6 +30,7 @@ Template.addProject.events({
       type: projecttype,
       createdAt: new Date().getTime()
     });
+    Meteor.call('createDir', projectname, projecttype);
     closeModal();
   }
 });

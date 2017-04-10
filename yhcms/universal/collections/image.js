@@ -11,7 +11,7 @@ const projPath = config.uplaodPath;
 const Images = new FilesCollection({
   collectionName: 'Images',
   allowClientCode: true,
-  storagePath: path.join(projPath, 'uploads/pngs'),
+  storagePath: path.join(projPath, 'uploads/image'),
   onBeforeUpload: (file) => {
     if(file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
       return true;
@@ -30,21 +30,18 @@ const Images = new FilesCollection({
       upload2qiniu(file, Meteor.bindEnvironment(
         (res) => {
           DBimage.update({ fileId: file._id }, { $set: { percent: 100 } });
-          const projPngPath = path.join(projPath, `uploads/pngs/${file.meta.proj}`);
-          if (!fs.existsSync(projPngPath)) {
-            fs.mkdirSync(projPngPath);
-          }
+          const projPngPath = path.join(projPath, `uploads/image/${file.meta.proj}`);
           exec(`mv ${file.path} ${projPngPath}/${file.name}`, Meteor.bindEnvironment(function(err) {
             if (err) {
               console.log(err);
               DBimage.remove({ fileId: file._id });
-              Images.remove({});
+              Images.remove({ _id: file._id });
             }
           }));
           setTimeout(Meteor.bindEnvironment(
             () => {
               DBimage.update({ fileId: file._id }, { $set: { src: `${secret.BASE_URL}${res.key}`, uploading: false } });
-              Images.remove({});
+              Images.remove({ _id: file._id });
             }
           ), 1000);
         }

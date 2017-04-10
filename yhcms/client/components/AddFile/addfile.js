@@ -10,10 +10,10 @@ Template.addFile.events({
     'change #filer' (event, instance) {
         if (event.target.files && event.target.files.length > 0) {
             const filelen = event.target.files.length;
-            if (filelen > 10) {
-                alert('too much files you upload, max is 10!');
-                return;
-            }
+            // if (filelen > 30) {
+            //     alert('too much files you upload, max is 30!');
+            //     return;
+            // }
             const project = Projects.findOne({ _id: FlowRouter.getParam('projectid') });
             for (let i = 0; i < filelen; i++) {
                 let upload = {};
