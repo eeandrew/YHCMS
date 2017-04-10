@@ -1,8 +1,12 @@
 <template name="home">
-  <div class="home-container">
-    {{#each project in projects}}
-      {{> ProjectBtn project=project callback=openProject}}
-    {{/each}}
-    {{> ProjectBtn addNew=1 callback=addProject}}
-  </div>
+  {{#if user}}
+    <div class="home-container">
+      {{#each project in projects}}
+        {{> ProjectBtn project=project callback=openProject}}
+      {{/each}}
+      {{> ProjectBtn addNew=1 callback=addProject}}
+    </div>
+  {{else}}
+    {{> notlogin}}
+  {{/if}}
 </template>

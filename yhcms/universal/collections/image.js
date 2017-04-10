@@ -1,6 +1,7 @@
 import { FilesCollection } from 'meteor/ostrio:files';
 import path from 'path';
 import config from '../../config.json';
+import secret from '../../secret.json';
 import fs from 'fs';
 import { exec } from 'child_process';
 import DBimage from './DBimage';
@@ -27,16 +28,23 @@ const Images = new FilesCollection({
       // Images.remove({});
       import { upload2qiniu } from '../../server/utils/upload2qiniu';
       upload2qiniu(file, Meteor.bindEnvironment(
-        () => {
+        (res) => {
           DBimage.update({ fileId: file._id }, { $set: { percent: 100 } });
           const projPngPath = path.join(projPath, `uploads/pngs/${file.meta.proj}`);
           if (!fs.existsSync(projPngPath)) {
             fs.mkdirSync(projPngPath);
           }
-          exec(`mv ${file.path} ${projPngPath}/${file.name}`);
+          exec(`mv ${file.path} ${projPngPath}/${file.name}`, function(err) {
+            if (err) {
+              console.log(err);
+              DBimage.remove({ fileId: file._id });
+              Images.remove({});
+            }
+          });
           setTimeout(Meteor.bindEnvironment(
             () => {
-              DBimage.update({ fileId: file._id }, { $set: { src: 'http://onmck4leq.bkt.clouddn.com/' + file.name, uploading: false } });
+              DBimage.update({ fileId: file._id }, { $set: { src: `${secret.BASE_URL}${res.key}`, uploading: false } });
+              Images.remove({});
             }
           ), 1000);
         }

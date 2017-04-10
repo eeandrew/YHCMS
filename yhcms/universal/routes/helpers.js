@@ -1,4 +1,7 @@
 function renderBasic(template) {
+  if (!Meteor.userId()) {
+    FlowRouter.go('/');
+  }
   return BlazeLayout.render('basicLayout',{
     content: template,header: 'header', footer: 'footer'
   })
